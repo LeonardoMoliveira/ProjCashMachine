@@ -7,9 +7,14 @@ Main:
 Chose an option to get started:
 
 1 - Withdraw
+
 2 - Money Available to Withdraw
+
 0 - Exit
+
 Option: 
+
+
 
 This project is an ATM Simulator, here you can simulate a withdraw that specify how many banknotes you will receive.
 
