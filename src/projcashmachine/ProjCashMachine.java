@@ -1,4 +1,5 @@
 package projcashmachine;
+
 /**
  *
  * @author Leonardo Moraes de Oliveira
@@ -10,15 +11,14 @@ public class ProjCashMachine {
     public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
-        CashMachine objCashMachine = new CashMachine();
-        CashMachine cashM = objCashMachine;
+        CashMachine atm = new CashMachine();
         Byte op;
 
         do {
             System.out.print("================Cash Machine================\n\n"
                     + "Chose an option to get started:\n\n"
-                    + "1 - Cash Out\n"
-                    + "2 - Money Available to Cash out\n"
+                    + "1 - Withdraw\n"
+                    + "2 - Money Available to Withdraw\n"
                     + "0 - Exit\n"
                     + "Option: ");
             op = input.nextByte();
@@ -26,33 +26,38 @@ public class ProjCashMachine {
             switch (op) {
 
                 case 1:
-                    cashM.operation = new MoneyService();
+                    atm.operation = new WithDraw();
 
                     do {
-                        System.out.print("================Services================\n\n"
+                        System.out.print("================Services====================\n\n"
                                 + "Available notes / Amount:\n"
-                                + cashM.toString() + "\n"
-                                + "Insert a value to cash out: ");
-                        cashM.operation.setValue(input.nextInt());
+                                + atm.toString() + "\n"
+                                + "Insert a value to withdraw: ");
+                        atm.operation.setValue(input.nextInt());
 
-                        if (!cashM.operation.isValid(cashM.operation.getValue())) {
+                        if (!atm.isValid(atm.operation.getValue())) {
 
                             System.out.println("\n\nInvalid value, it must be multiple of 10\n");
 
                         }
+                        if (!atm.isBalancePositive(atm.operation.getValue())) {
 
-                    } while (!cashM.operation.isValid(cashM.operation.getValue()));
+                            System.out.println("\n\nATM has no cash enough, please try again\n");
 
-                    cashM.decreaseNotes();
+                        }
 
-                    System.out.print("================Services================\n\n"
-                            + cashM.operation.toString() + "\n");
+                    } while (!atm.isValid(atm.operation.getValue()) || !atm.isBalancePositive(atm.operation.getValue()));
+
+                    atm.calcNotes(atm.operation.getValue());
+
+                    System.out.print("================Services====================\n\n"
+                            + atm.operation.toString() + "\n");
                     break;
 
                 case 2:
-                    System.out.print("================Services================\n\n"
+                    System.out.print("================Services====================\n\n"
                             + "Available notes / Amount:\n"
-                            + cashM.toString() + "\n");
+                            + atm.toString() + "\n");
                     break;
 
                 case 0:

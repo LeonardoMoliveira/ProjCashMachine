@@ -1,4 +1,5 @@
 package projcashmachine;
+
 /**
  *
  * @author Leonardo Moraes de Oliveira
@@ -10,11 +11,11 @@ public class CashMachine {
     private int notesOf50;
     private int notesOf20;
     private int notesOf10;
-    MoneyService operation;
+    WithDraw operation;
 
     // Constructor
     public CashMachine() {
-        MoneyService operation = new MoneyService();
+        WithDraw operation = new WithDraw();
         this.notesOf100 = 5;
         this.notesOf50 = 4;
         this.notesOf20 = 5;
@@ -54,11 +55,11 @@ public class CashMachine {
         this.notesOf10 = notesOf10;
     }
 
-    public MoneyService getOperation() {
+    public WithDraw getOperation() {
         return operation;
     }
 
-    public void setOperation(MoneyService operation) {
+    public void setOperation(WithDraw operation) {
         this.operation = operation;
     }
 
@@ -73,18 +74,114 @@ public class CashMachine {
     }
 
     // Special methods
-    public void decreaseNotes() {
-        this.notesOf100 -= this.operation.getAmount100Notes(this.operation.getValue());
-        this.notesOf50 -= this.operation.getAmount50Notes(this.operation.getValue());
-        this.notesOf20 -= this.operation.getAmount20Notes(this.operation.getValue());
-        this.notesOf10 -= this.operation.getAmount10Notes(this.operation.getValue());
+    
+    /* Count notes and check if balance is positive */
+    public void calcNotes(int value) {
+
+        if (this.notesOf100 < this.getAmount100Notes(value)) {
+
+            this.operation.setN100(this.notesOf100);
+            value -= (this.operation.getN100() * 100);
+            this.notesOf100 -= this.operation.getN100();
+
+        } else {
+            this.operation.setN100(this.getAmount100Notes(value));
+            value -= (this.operation.getN100() * 100);
+            this.notesOf100 -= this.operation.getN100();
+        }
+        if (this.notesOf50 < this.getAmount50Notes(value)) {
+
+            this.operation.setN50(this.notesOf50);
+            value -= (this.operation.getN50() * 50);
+            this.notesOf50 = this.operation.getN50();
+
+        } else {
+            this.operation.setN50(this.getAmount50Notes(value));
+            value -= (this.operation.getN50() * 50);
+            this.notesOf50 -= this.operation.getN50();
+        }
+        if (this.notesOf20 < this.getAmount20Notes(value)) {
+
+            this.operation.setN20(this.notesOf20);
+            value -= (this.operation.getN20() * 20);
+            this.notesOf20 = this.operation.getN20();
+
+        } else {
+            this.operation.setN20(this.getAmount20Notes(value));
+            value -= (this.operation.getN20() * 20);
+            this.notesOf20 -= this.operation.getN20();
+        }
+        if (this.notesOf10 < this.getAmount10Notes(value)) {
+
+            this.operation.setN10(this.notesOf10);
+            value -= (this.operation.getN10() * 10);
+            this.notesOf10 = this.operation.getN10();
+
+        } else {
+            this.operation.setN10(this.getAmount10Notes(value));
+            value -= (this.operation.getN10() * 10);
+            this.notesOf10 -= this.operation.getN10();
+        }
+
     }
 
+    /* Return how many $100 notes will need */
+    public int getAmount100Notes(int value) {
+        if (value > 0) {
+            return value / 100;
+        } else {
+            return 0;
+        }
+
+    }
+
+    /* Return how many $50 notes will need */
+    public int getAmount50Notes(int value) {
+        if (value > 0) {
+            return value / 50;
+        } else {
+            return 0;
+        }
+    }
+
+    /* Return how many $20 notes will need */
+    public int getAmount20Notes(int value) {
+        if (value > 0) {
+            return value / 20;
+        } else {
+            return 0;
+        }
+    }
+
+    /* Return how many $10 notes will need */
+    public int getAmount10Notes(int value) {
+        if (value > 0) {
+            return value / 10;
+        } else {
+            return 0;
+        }
+    }
+
+    /* Test if the desired value is disible by 10 */
+    public boolean isValid(int value) {
+        if (value > 0) {
+            return value % 10 == 0;
+        } else {
+            return false;
+        }
+    }
+
+    /* Sum all notes to get a total cash value in ATM */
     public int getTotalOfMoney() {
-        return this.notesOf100
-                + this.notesOf50
-                + this.notesOf20
-                + this.notesOf10;
+        return (this.notesOf100 * 100)
+                + (this.notesOf50 * 50)
+                + (this.notesOf20 * 20)
+                + (this.notesOf10 * 10);
+    }
+
+    /* Test if balance is positive */
+    public boolean isBalancePositive(int value) {
+        return this.getTotalOfMoney() > value;
     }
 
 }
