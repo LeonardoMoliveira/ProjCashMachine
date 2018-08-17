@@ -181,7 +181,7 @@ public class CashMachine {
 
     /* Test if balance is positive */
     public boolean isBalancePositive(int value) {
-        return this.getTotalOfMoney() > value;
+        return this.getTotalOfMoney() >= value;
     }
 
 }
