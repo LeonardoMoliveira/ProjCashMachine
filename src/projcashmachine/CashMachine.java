@@ -93,7 +93,7 @@ public class CashMachine {
 
             this.operation.setN50(this.notesOf50);
             value -= (this.operation.getN50() * 50);
-            this.notesOf50 = this.operation.getN50();
+            this.notesOf50 -= this.operation.getN50();
 
         } else {
             this.operation.setN50(this.getAmount50Notes(value));
@@ -104,7 +104,7 @@ public class CashMachine {
 
             this.operation.setN20(this.notesOf20);
             value -= (this.operation.getN20() * 20);
-            this.notesOf20 = this.operation.getN20();
+            this.notesOf20 -= this.operation.getN20();
 
         } else {
             this.operation.setN20(this.getAmount20Notes(value));
@@ -115,7 +115,7 @@ public class CashMachine {
 
             this.operation.setN10(this.notesOf10);
             value -= (this.operation.getN10() * 10);
-            this.notesOf10 = this.operation.getN10();
+            this.notesOf10 -= this.operation.getN10();
 
         } else {
             this.operation.setN10(this.getAmount10Notes(value));
