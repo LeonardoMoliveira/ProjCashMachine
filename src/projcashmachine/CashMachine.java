@@ -75,7 +75,7 @@ public class CashMachine {
 
     // Special methods
     
-    /* Count notes and check if balance is positive */
+    /* Count notes */
     public void calcNotes(int value) {
 
         if (this.notesOf100 < this.getAmount100Notes(value)) {
